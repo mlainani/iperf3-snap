@@ -1,0 +1,35 @@
+name: iperf3
+base: core20
+version: '3.0.7'
+summary:  A TCP, UDP, and SCTP network bandwidth measurement tool
+description: |
+  iperf is a tool for active measurements of the maximum achievable bandwidth
+  on IP networks. It supports tuning of various parameters related to timing,
+  protocols, and buffers. For each test it reports the bandwidth, loss, and
+  other parameters.
+grade: devel
+confinement: devmode
+
+environment:
+    LD_LIBRARY_PATH: $SNAP/usr/local/lib
+
+apps:
+  iperf3:
+    command: usr/local/bin/iperf3
+
+parts:
+  iperf3:
+    plugin: autotools
+    source: https://github.com/apietila/iperf3.git
+    source-tag: 3.0.7
+    stage-packages:
+      - libsctp1
+    filesets:
+      include:
+        - usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+        - usr/local/bin/iperf3
+        - usr/local/lib
+    stage:
+      - $include
+    prime:
+      - $include
